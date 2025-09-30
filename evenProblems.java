@@ -37,6 +37,8 @@ public class evenProblems {
 
         System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
         System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+        System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
+        System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
     }
 
@@ -88,6 +90,61 @@ public class evenProblems {
         results.add("Mean: " + Amean);
         results.add("Min: " + Amin);
         results.add("Max: " + Amax);
+        results.add("Standard Deviation: " + rounded);
+        results.add("25th Percentile: " + percentile1);
+        results.add("50th Percentile: " + percentile2);
+        results.add("75th Percentile: " + percentile3);
+
+        return results;
+    }
+
+    public static ArrayList<String> calculateValsFromDoubles(ArrayList<Double> blue){
+        int count = 0;
+
+        double Bmean = 0.0;
+        double Bmin = 999999.0;
+        double Bmax = -999999.0;
+        double variance = 0.0;
+        double SumofSquares = 0.0;
+        double Bstd = 0.0;
+        double percentile1 = 0.0;
+        double percentile2 = 0.0;
+        double percentile3 = 0.0;
+        ArrayList<String> results = new ArrayList<>();
+
+        for(double val : blue){
+            count++;
+            Bmean += val;
+            if(val < Bmin){
+                Bmin = val;
+            }
+            if(val > Bmax){
+                Bmax = val;
+            }
+        }
+        Bmean /= count;
+
+        //Calculate the variance
+        for(double val : blue){
+            double temp = val - Bmean;
+            double tempSquared = temp * temp;
+            SumofSquares += tempSquared;
+        }
+        variance = SumofSquares / (count - 1);
+
+        //Calculate the standard deviation
+        Bstd = Math.sqrt(variance);
+        double rounded = Math.round(Bstd * 1000) / 1000.0; //Round the std to 3 decimal places
+
+        // //Get the percentiles for 25%, 50%, and 75%
+        // percentile1 = getPercentileFromDoubleArray(blue, 25.0);
+        // percentile2 = getPercentileFromDoubleArray(blue, 50.0);
+        // percentile3 = getPercentileFromDoubleArray(blue, 75.0);
+
+        results.add("Count: " + count);
+        results.add("Mean: " + Math.round(Bmean * 1000) / 1000.0);
+        results.add("Min: " + Bmin);
+        results.add("Max: " + Bmax);
         results.add("Standard Deviation: " + rounded);
         results.add("25th Percentile: " + percentile1);
         results.add("50th Percentile: " + percentile2);
