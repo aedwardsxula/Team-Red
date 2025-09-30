@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -34,7 +35,41 @@ public class evenProblems {
             chargesVals.add(Double.parseDouble(values[6]));
         }
 
-        
+        System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
+        System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+
+    }
+
+    //Problem 2
+    public static ArrayList<String> calculateValsFromIntegers(ArrayList<Integer> red){
+        int count = 0;
+
+        int Amean = 0;
+        int Amin = 999999;
+        int Amax = -999999;
+        int variance = 0;
+        int SumofSquares = 0;
+        double Astd = 0.0;
+        ArrayList<String> results = new ArrayList<>();
+
+        for(int age : red){
+            count++;
+            Amean += age;
+            if(age < Amin){
+                Amin = age;
+            }
+            if(age > Amax){
+                Amax = age;
+            }
+        }
+        Amean /= count;
+
+        results.add("Count: " + count);
+        results.add("Mean: " + Amean);
+        results.add("Min: " + Amin);
+        results.add("Max: " + Amax);
+
+        return results;
     }
 
     
