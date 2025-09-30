@@ -136,25 +136,43 @@ public class evenProblems {
         Bstd = Math.sqrt(variance);
         double rounded = Math.round(Bstd * 1000) / 1000.0; //Round the std to 3 decimal places
 
-        // //Get the percentiles for 25%, 50%, and 75%
-        // percentile1 = getPercentileFromDoubleArray(blue, 25.0);
-        // percentile2 = getPercentileFromDoubleArray(blue, 50.0);
-        // percentile3 = getPercentileFromDoubleArray(blue, 75.0);
+        //Get the percentiles for 25%, 50%, and 75%
+        percentile1 = getPercentileFromDoubleArray(blue, 25.0);
+        percentile2 = getPercentileFromDoubleArray(blue, 50.0);
+        percentile3 = getPercentileFromDoubleArray(blue, 75.0);
 
         results.add("Count: " + count);
         results.add("Mean: " + Math.round(Bmean * 1000) / 1000.0);
         results.add("Min: " + Bmin);
         results.add("Max: " + Bmax);
         results.add("Standard Deviation: " + rounded);
-        results.add("25th Percentile: " + percentile1);
-        results.add("50th Percentile: " + percentile2);
-        results.add("75th Percentile: " + percentile3);
+        results.add("25th Percentile: " + Math.round(percentile1 * 1000) / 1000.0);
+        results.add("50th Percentile: " + Math.round(percentile2 * 1000) / 1000.0);
+        results.add("75th Percentile: " + Math.round(percentile3 * 1000) / 1000.0);
 
         return results;
     }
 
     //Calculate the percentiles
     public static double getPercentileFromIntArray(ArrayList<Integer> carbon, double percentile){
+        Collections.sort(carbon); //Sort the arraylist in ascending order
+
+        //Find the rank(Position in the sorted list)
+        double index = (percentile / 100.0) * (carbon.size() - 1);
+
+        int lowerIndex = (int) Math.floor(index);
+        int upperIndex = (int) Math.ceil(index);
+
+        //Find the values between the two indexes if necessary
+        if(lowerIndex == upperIndex){
+            return carbon.get(lowerIndex);
+        } else {
+            double weight = index - lowerIndex;
+            return carbon.get(lowerIndex) * (1 - weight) + carbon.get(upperIndex) * weight;
+        }
+    }
+
+    public static double getPercentileFromDoubleArray(ArrayList<Double> carbon, double percentile){
         Collections.sort(carbon); //Sort the arraylist in ascending order
 
         //Find the rank(Position in the sorted list)
