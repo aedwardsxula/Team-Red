@@ -64,10 +64,23 @@ public class evenProblems {
         }
         Amean /= count;
 
+        //Calculate the variance
+        for(int age : red){
+            int temp = age - Amean;
+            int tempSquared = temp * temp;
+            SumofSquares += tempSquared;
+        }
+        variance = SumofSquares / (count - 1);
+
+        //Calculate the standard deviation
+        Astd = Math.sqrt(variance);
+        double rounded = Math.round(Astd * 1000) / 1000.0; //Round the std to 3 decimal places
+
         results.add("Count: " + count);
         results.add("Mean: " + Amean);
         results.add("Min: " + Amin);
         results.add("Max: " + Amax);
+        results.add("Standard Deviation: " + rounded);
 
         return results;
     }
