@@ -50,6 +50,9 @@ public class evenProblems {
         int variance = 0;
         int SumofSquares = 0;
         double Astd = 0.0;
+        double percentile1 = 0.0;
+        double percentile2 = 0.0;
+        double percentile3 = 0.0;
         ArrayList<String> results = new ArrayList<>();
 
         for(int age : red){
@@ -76,13 +79,40 @@ public class evenProblems {
         Astd = Math.sqrt(variance);
         double rounded = Math.round(Astd * 1000) / 1000.0; //Round the std to 3 decimal places
 
+        //Get the percentiles for 25%, 50%, and 75%
+        percentile1 = getPercentileFromIntArray(red, 25.0);
+        percentile2 = getPercentileFromIntArray(red, 50.0);
+        percentile3 = getPercentileFromIntArray(red, 75.0);
+
         results.add("Count: " + count);
         results.add("Mean: " + Amean);
         results.add("Min: " + Amin);
         results.add("Max: " + Amax);
         results.add("Standard Deviation: " + rounded);
+        results.add("25th Percentile: " + percentile1);
+        results.add("50th Percentile: " + percentile2);
+        results.add("75th Percentile: " + percentile3);
 
         return results;
+    }
+
+    //Calculate the percentiles
+    public static double getPercentileFromIntArray(ArrayList<Integer> carbon, double percentile){
+        Collections.sort(carbon); //Sort the arraylist in ascending order
+
+        //Find the rank(Position in the sorted list)
+        double index = (percentile / 100.0) * (carbon.size() - 1);
+
+        int lowerIndex = (int) Math.floor(index);
+        int upperIndex = (int) Math.ceil(index);
+
+        //Find the values between the two indexes if necessary
+        if(lowerIndex == upperIndex){
+            return carbon.get(lowerIndex);
+        } else {
+            double weight = index - lowerIndex;
+            return carbon.get(lowerIndex) * (1 - weight) + carbon.get(upperIndex) * weight;
+        }
     }
 
     
