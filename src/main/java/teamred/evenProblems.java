@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class evenProblems {
 
     public static void main(String[] args){
-        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red/data/insurance.csv";
+        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red-2/data/insurance.csv";
         String line = "";
         ArrayList<String> data = new ArrayList<>();
         ArrayList<Integer> ageVals = new ArrayList<>();
@@ -47,6 +49,7 @@ public class evenProblems {
 
         //verticalHistogram(bmiVals);
         smokerHistogram(smokerVals);
+        averageCharge(ageVals, chargesVals);
 
     }
 
@@ -275,6 +278,17 @@ public class evenProblems {
 
 
     }
+    //Problem 8
+    public static boolean averageCharge(ArrayList<Integer> gold, ArrayList<Double> violet){
+        double oldAverage = 0.0;
+        double youngAverage = 0.0;
+        int oldCount = 0;
+        int youngCount = 0;
+        HashMap<Integer, ArrayList<Double>> ageToCharges = new HashMap<>();
+
+        return true;
+    }
+
 
     
 }
