@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.Collections;
 
 
@@ -39,6 +40,8 @@ public class evenProblems {
         System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
         System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
         System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
+
+        verticalHistogram(bmiVals);
 
     }
 
@@ -188,6 +191,47 @@ public class evenProblems {
             double weight = index - lowerIndex;
             return carbon.get(lowerIndex) * (1 - weight) + carbon.get(upperIndex) * weight;
         }
+    }
+
+
+
+    //Problem 4
+    public static void verticalHistogram(ArrayList<Double> green){
+
+        TreeMap<Integer, Integer> Tmap = new TreeMap<>();
+        
+
+        for(double val : green){
+            //Round the value down to the nearest integer
+            int intVal = (int) Math.floor(val);
+
+            if(Tmap.containsKey(intVal)){
+                Tmap.put(intVal, Tmap.get(intVal) + 1);
+            } else {
+                Tmap.put(intVal, 1);
+            }
+        }
+        //Get the max value in the TreeMap
+        int max = Collections.max(Tmap.values());
+
+        //Print the histogram
+        for(int i = max; i > 0; i--){
+            for(int key : Tmap.keySet()){
+                if(Tmap.get(key) >= i){
+                    System.out.print(" * ");
+                } else {
+                    System.out.print("   ");
+                }
+            }
+            System.out.println();
+        }
+
+        for(int key : Tmap.keySet()){
+            System.out.print(String.format("%2d ", key));
+        }
+        System.out.println();  
+
+
     }
 
     
