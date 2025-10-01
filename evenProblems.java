@@ -40,6 +40,8 @@ public class evenProblems {
         System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
         System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
+        verticalHistogram(bmiVals);
+
     }
 
     //Problem 2
@@ -188,6 +190,47 @@ public class evenProblems {
             double weight = index - lowerIndex;
             return carbon.get(lowerIndex) * (1 - weight) + carbon.get(upperIndex) * weight;
         }
+    }
+
+
+
+    //Problem 4
+    public static void verticalHistogram(ArrayList<Double> green){
+        
+        //Count the number of times a value occurs in each range
+        int[] ranges = new int[10];
+
+        for(double val : green){
+            if(val >= 0.0 && val < 10.00){
+                ranges[0]++;
+            } else if(val >= 10.0 && val < 20.0){
+                ranges[1]++;
+            } else if(val >= 20.0 && val < 30.0){
+                ranges[2]++;
+            } else if(val >= 30.0 && val < 40.0){
+                ranges[3]++;
+            } else if(val >= 40.0 && val < 50.0){
+                ranges[4]++;
+            } else if(val >= 50.0 && val < 60.0){
+                ranges[5]++;
+            } else if(val >= 60.0 && val < 70.0){
+                ranges[6]++;
+            } else if(val >= 70.0 && val < 80.0){
+                ranges[7]++;
+            } else if(val >= 80.0 && val < 90.0){
+                ranges[8]++;
+            } else if(val >= 90.0 && val <= 100.0){
+                ranges[9]++;
+
+            }
+        }
+        for(int x = 0; x < ranges.length; x++){
+            for(int c = 0; c < ranges[x]; c++){
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+
     }
 
     
