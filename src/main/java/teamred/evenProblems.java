@@ -1,10 +1,8 @@
 package teamred;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Collections;
 
