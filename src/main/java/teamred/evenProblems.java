@@ -54,6 +54,12 @@ public class evenProblems {
 
         //Problem 10
         boolean result2 = chargePerChild(childrenVals,chargesVals);
+        if(result2){
+            System.out.println("Having more children results in a lower charge per child.");
+        }
+        else{
+            System.out.println("It is not true that having more children results in a lower charge per child.");
+        }
 
     }
 
@@ -287,6 +293,7 @@ public class evenProblems {
     public static boolean chargePerChild(ArrayList<Integer> cyan, ArrayList<Double> black){
 
         HashMap<Integer, ArrayList<Double>> childToCharge = new HashMap<>();
+        ArrayList<Double> finalAvg = new ArrayList<>();
 
         for(int x = 0; x < cyan.size(); x++){
             int val = cyan.get(x);
@@ -299,8 +306,6 @@ public class evenProblems {
         for(Entry<Integer, ArrayList<Double>> ee : childToCharge.entrySet()){
             int key = ee.getKey();
             ArrayList<Double> values = ee.getValue();
-            System.out.println(key + ":" + values);
-            System.out.println();
 
             double total = 0;
             for(double v : values){
@@ -308,10 +313,16 @@ public class evenProblems {
             }
             double average = total/values.size();
             System.out.println(key + ": " + average);
+            finalAvg.add(average);
 
         }
-
-        return false;
+        double lowest = finalAvg.get(0);
+        for(int c = 0; c < finalAvg.size(); c++){
+            if(lowest <= finalAvg.get(c)){
+                return false;
+            }
+        }
+        return true; // Assume null hypothesis is true
     }
 
     
