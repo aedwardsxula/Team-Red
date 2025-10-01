@@ -18,6 +18,7 @@ public class evenProblems {
         ArrayList<Double> bmiVals = new ArrayList<>();
         ArrayList<Integer> childrenVals = new ArrayList<>();
         ArrayList<Double> chargesVals = new ArrayList<>();
+        ArrayList<String> smokerVals = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvPath))){
             line = reader.readLine(); // Skip header line
@@ -34,14 +35,17 @@ public class evenProblems {
             bmiVals.add(Double.parseDouble(values[2]));
             childrenVals.add(Integer.parseInt(values[3]));
             chargesVals.add(Double.parseDouble(values[6]));
+            smokerVals.add(values[4]);
+
         }
 
-        System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
-        System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
-        System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
-        System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
+       // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
+       // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+       // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
+       // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
-        verticalHistogram(bmiVals);
+        //verticalHistogram(bmiVals);
+        smokerHistogram(smokerVals);
 
     }
 
@@ -230,6 +234,43 @@ public class evenProblems {
             System.out.print(String.format("%2d ", key));
         }
         System.out.println();  
+
+
+    }
+
+    //Probelem 6
+    public static void smokerHistogram(ArrayList<String> silver){
+        TreeMap<String, Integer> Tmap = new TreeMap<>();
+
+        for(String val : silver){
+            if(val.equals("yes")){
+                val = "Smoker";
+            } else {
+                val = "Non-Smoker";
+            }
+            if(Tmap.containsKey(val)){
+                Tmap.put(val, Tmap.get(val) + 1);
+            } else {
+                Tmap.put(val, 1);
+            }
+        }
+
+        int max = Collections.max(Tmap.values());
+        for(int i = max; i > 0; i--){
+            for(String key : Tmap.keySet()){
+                if(Tmap.get(key) >= i){
+                    System.out.print(" * \t\t");
+                } else {
+                    System.out.print("   ");
+                }
+            }
+            System.out.println();
+        }
+        for(String key : Tmap.keySet()){
+            System.out.print(String.format("%s", key));
+            System.out.print("\t");
+        }
+        System.out.println();
 
 
     }
