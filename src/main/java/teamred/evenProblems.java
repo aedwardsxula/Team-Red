@@ -7,12 +7,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 
 
 public class evenProblems {
 
     public static void main(String[] args){
-        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red/data/insurance.csv";
+        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red-2/data/insurance.csv";
         String line = "";
         ArrayList<String> data = new ArrayList<>();
         ArrayList<Integer> ageVals = new ArrayList<>();
@@ -46,7 +50,10 @@ public class evenProblems {
        // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
         //verticalHistogram(bmiVals);
-        smokerHistogram(smokerVals);
+        //smokerHistogram(smokerVals);
+
+        //Problem 10
+        boolean result2 = chargePerChild(childrenVals,chargesVals);
 
     }
 
@@ -274,6 +281,37 @@ public class evenProblems {
         System.out.println();
 
 
+    }
+
+    //Problem 10
+    public static boolean chargePerChild(ArrayList<Integer> cyan, ArrayList<Double> black){
+
+        HashMap<Integer, ArrayList<Double>> childToCharge = new HashMap<>();
+
+        for(int x = 0; x < cyan.size(); x++){
+            int val = cyan.get(x);
+            if(childToCharge.get(val) == null)
+            {
+                childToCharge.put(val, new ArrayList<Double>());
+            }
+            childToCharge.get(val).add(black.get(x));
+        }
+        for(Entry<Integer, ArrayList<Double>> ee : childToCharge.entrySet()){
+            int key = ee.getKey();
+            ArrayList<Double> values = ee.getValue();
+            System.out.println(key + ":" + values);
+            System.out.println();
+
+            double total = 0;
+            for(double v : values){
+                total += v;
+            }
+            double average = total/values.size();
+            System.out.println(key + ": " + average);
+
+        }
+
+        return false;
     }
 
     
