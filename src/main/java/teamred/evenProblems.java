@@ -297,7 +297,11 @@ public class evenProblems {
         HashMap<Integer, Double> ageToCharges = new HashMap<>();
 
         for(int x = 0; x < gold.size(); x++){
-            ageToCharges.put(gold.get(x),violet.get(x));
+            int age = gold.get(x);
+            if(ageToCharges.get(age) == null){
+                ageToCharges.put(age, violet.get(x));
+            }
+            ageToCharges.put(gold.get(x),ageToCharges.get(age) + violet.get(x));
         }
         
         for(int key : ageToCharges.keySet()){
@@ -309,6 +313,7 @@ public class evenProblems {
                 youngCount++;
             }
         }
+
         oldAverage /= oldCount;
         youngAverage /= youngCount;
 
