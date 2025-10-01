@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class evenProblems {
@@ -41,15 +40,26 @@ public class evenProblems {
             smokerVals.add(values[4]);
 
         }
+        //Problem 2
+        // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
+        // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+        // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
+        // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
-       // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
-       // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
-       // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
-       // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
-
+        //Problem 4
         //verticalHistogram(bmiVals);
-        smokerHistogram(smokerVals);
-        averageCharge(ageVals, chargesVals);
+
+        //Problem 6
+        //smokerHistogram(smokerVals);
+        
+        //Problem 8
+        boolean result = averageCharge(ageVals, chargesVals);
+        if(result){
+            System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
+        }
+        else{
+            System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        }
 
     }
 
@@ -284,9 +294,28 @@ public class evenProblems {
         double youngAverage = 0.0;
         int oldCount = 0;
         int youngCount = 0;
-        HashMap<Integer, ArrayList<Double>> ageToCharges = new HashMap<>();
+        HashMap<Integer, Double> ageToCharges = new HashMap<>();
 
-        return true;
+        for(int x = 0; x < gold.size(); x++){
+            ageToCharges.put(gold.get(x),violet.get(x));
+        }
+        
+        for(int key : ageToCharges.keySet()){
+            if(key >= 50){
+                oldAverage += ageToCharges.get(key);
+                oldCount++;
+            } else if(key <= 20){
+                youngAverage += ageToCharges.get(key);
+                youngCount++;
+            }
+        }
+        oldAverage /= oldCount;
+        youngAverage /= youngCount;
+
+        if(oldAverage >= youngAverage * 2){
+            return true;
+        }else
+            return false;
     }
 
 
