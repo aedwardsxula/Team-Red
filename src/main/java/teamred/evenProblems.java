@@ -5,12 +5,13 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.HashMap;
 
 
 public class evenProblems {
 
     public static void main(String[] args){
-        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red/data/insurance.csv";
+        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red-2/data/insurance.csv";
         String line = "";
         ArrayList<String> data = new ArrayList<>();
         ArrayList<Integer> ageVals = new ArrayList<>();
@@ -37,14 +38,26 @@ public class evenProblems {
             smokerVals.add(values[4]);
 
         }
+        //Problem 2
+        // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
+        // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+        // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
+        // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
-       // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
-       // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
-       // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
-       // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
-
+        //Problem 4
         //verticalHistogram(bmiVals);
-        smokerHistogram(smokerVals);
+
+        //Problem 6
+        //smokerHistogram(smokerVals);
+        
+        //Problem 8
+        boolean result = averageCharge(ageVals, chargesVals);
+        if(result){
+            System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
+        }
+        else{
+            System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        }
 
     }
 
@@ -273,6 +286,41 @@ public class evenProblems {
 
 
     }
+    //Problem 8
+    public static boolean averageCharge(ArrayList<Integer> gold, ArrayList<Double> violet){
+        double oldAverage = 0.0;
+        double youngAverage = 0.0;
+        int oldCount = 0;
+        int youngCount = 0;
+        HashMap<Integer, Double> ageToCharges = new HashMap<>();
+
+        for(int x = 0; x < gold.size(); x++){
+            int age = gold.get(x);
+            if(ageToCharges.get(age) == null){
+                ageToCharges.put(age, violet.get(x));
+            }
+            ageToCharges.put(gold.get(x),ageToCharges.get(age) + violet.get(x));
+        }
+        
+        for(int key : ageToCharges.keySet()){
+            if(key >= 50){
+                oldAverage += ageToCharges.get(key);
+                oldCount++;
+            } else if(key <= 20){
+                youngAverage += ageToCharges.get(key);
+                youngCount++;
+            }
+        }
+
+        oldAverage /= oldCount;
+        youngAverage /= youngCount;
+
+        if(oldAverage >= youngAverage * 2){
+            return true;
+        }else
+            return false;
+    }
+
 
     
 }
