@@ -2,9 +2,9 @@ package teamred;
 
 import java.util.*;
 
-public class InsuranceProblemsTest {
+public class InsuranceRecord {
     // 14. Test for age distribution for smokers
-    @Test
+    @DriverTest
     void testAgeDistributionForSmokers() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -25,7 +25,7 @@ public class InsuranceProblemsTest {
     }
 
     // 16. Test for average age of young smokers vs older people
-    @Test
+    @DriverTest
     void testAverageAgeYoungVsOldSmokers() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -40,7 +40,7 @@ public class InsuranceProblemsTest {
     }
 
     // 18. Test for average BMI southerners vs northerners
-    @Test
+    @DriverTest
     void testAverageBmiSouthernersVsNortherners() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -55,7 +55,7 @@ public class InsuranceProblemsTest {
     }
 
     // 20. Test for Pearson correlation of charges vs BMI
-    @Test
+    @DriverTest
     void testPearsonCorrelationChargesBmi() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -70,7 +70,7 @@ public class InsuranceProblemsTest {
     }
 
     // 22. Test for Pearson correlation of charges vs region
-    @Test
+    @DriverTest
     void testPearsonCorrelationChargesRegion() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -84,7 +84,7 @@ public class InsuranceProblemsTest {
         assertEquals(2, records.size());
     }
     // 2. Test for statistics calculation (count, mean, std, min, percentiles, max)
-    @Test
+    @DriverTest
     void testStatisticsCalculation() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -103,7 +103,7 @@ public class InsuranceProblemsTest {
     }
 
     // 4. Test for vertical text-based histogram of BMI
-    @Test
+    @DriverTest
     void testVerticalBmiHistogram() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -121,7 +121,7 @@ public class InsuranceProblemsTest {
     }
 
     // 6. Test for vertical text-based histogram of smokers vs non-smokers
-    @Test
+    @DriverTest
     void testVerticalSmokerHistogram() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -139,7 +139,7 @@ public class InsuranceProblemsTest {
     }
 
     // 8. Test if people 50+ average twice the charges of <=20
-    @Test
+    @DriverTest
     void testOlderTwiceYoungerCharges() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -156,7 +156,7 @@ public class InsuranceProblemsTest {
     }
 
     // 10. Test if more children means lower charge per child
-    @Test
+    @DriverTest
     void testMoreChildrenLowerChargePerChild() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
@@ -172,7 +172,7 @@ public class InsuranceProblemsTest {
     }
 
     // 12. Test if smokers in south are charged 25% more
-    @Test
+    @DriverTest
     void testSouthSmokersChargedMore() {
         // Arrange
         List<InsuranceRecord> records = Arrays.asList(
