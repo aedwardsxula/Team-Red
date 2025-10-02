@@ -1,3 +1,8 @@
+package teamred;
+
+import java.util.*;
+
+public class InsuranceProblemsTest {
     // 14. Test for age distribution for smokers
     @Test
     void testAgeDistributionForSmokers() {
@@ -12,6 +17,11 @@
         // Assert
         // assertTrue(dist.contains("25"));
         assertEquals(3, records.size());
+    }
+
+    private void assertEquals(int i, int size) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'assertEquals'");
     }
 
     // 16. Test for average age of young smokers vs older people
@@ -73,13 +83,6 @@
         // assertTrue(r >= -1 && r <= 1);
         assertEquals(2, records.size());
     }
-package teamred;
-
-import org.junit.jupiter.api.*;
-import java.util.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-public class InsuranceProblemsTest {
     // 2. Test for statistics calculation (count, mean, std, min, percentiles, max)
     @Test
     void testStatisticsCalculation() {
