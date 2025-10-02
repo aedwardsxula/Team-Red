@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class evenProblems {
@@ -20,6 +23,7 @@ public class evenProblems {
         ArrayList<Integer> childrenVals = new ArrayList<>();
         ArrayList<Double> chargesVals = new ArrayList<>();
         ArrayList<String> smokerVals = new ArrayList<>();
+        ArrayList<String> regionVals = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvPath))){
             line = reader.readLine(); // Skip header line
@@ -37,6 +41,7 @@ public class evenProblems {
             childrenVals.add(Integer.parseInt(values[3]));
             chargesVals.add(Double.parseDouble(values[6]));
             smokerVals.add(values[4]);
+            regionVals.add(values[5]);
 
         }
 
@@ -46,7 +51,13 @@ public class evenProblems {
        // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
         //verticalHistogram(bmiVals);
-        smokerHistogram(smokerVals);
+        //smokerHistogram(smokerVals);
+        boolean raspberry = differenceBetweenRegionCharges(smokerVals,regionVals,chargesVals);
+        if(raspberry){
+            System.out.println("It is true that smokers in the south are charged 25% more than other regions.");
+        }else{
+            System.out.println("It is not true that smokers in the south are charged 25% more than other regions.");
+        }
 
     }
 
@@ -276,6 +287,44 @@ public class evenProblems {
 
     }
 
+    //Problem 12
+    public static boolean differenceBetweenRegionCharges(ArrayList<String>smoker, ArrayList<String> region, ArrayList<Double> charge){
+        HashMap<String, ArrayList<Double>> regionCharge = new HashMap<>();
+        double southTotal = 0.0;
+        double northTotal = 0.0;
+
+        for(int c = 0; c < smoker.size(); c++){
+            if(smoker.get(c).equals("yes")){
+                String reg = region.get(c);
+                if(regionCharge.get(reg) == null){
+                    regionCharge.put(reg, new ArrayList<Double>());
+                }
+                regionCharge.get(reg).add(charge.get(c));
+            }
+        }
+        //System.out.println(regionCharge);
+        for(Entry<String, ArrayList<Double>> white : regionCharge.entrySet()){
+            String key = white.getKey();
+            ArrayList<Double> values = white.getValue();
+
+            if(key.contains("south")){
+                for(double v : values){
+                    southTotal += v;
+                }
+            } else{
+                for( double vv : values){
+                    northTotal += vv;
+                }
+            }
+        }
+        //Check if smokers in the south are charged 25% more than others
+        double extra = northTotal * 0.25;
+        if(southTotal >= northTotal + extra){
+            return true;
+        }
+
+        return false;
+    }
     
 }
 
