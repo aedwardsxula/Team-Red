@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 
 
 public class evenProblems {
@@ -18,6 +22,7 @@ public class evenProblems {
         ArrayList<Integer> childrenVals = new ArrayList<>();
         ArrayList<Double> chargesVals = new ArrayList<>();
         ArrayList<String> smokerVals = new ArrayList<>();
+        ArrayList<String> regionVals = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvPath))){
             line = reader.readLine(); // Skip header line
@@ -33,18 +38,44 @@ public class evenProblems {
             ageVals.add(Integer.parseInt(values[0]));
             bmiVals.add(Double.parseDouble(values[2]));
             childrenVals.add(Integer.parseInt(values[3]));
-            chargesVals.add(Double.parseDouble(values[6]));
             smokerVals.add(values[4]);
+            regionVals.add(values[5]);
+            chargesVals.add(Double.parseDouble(values[6]));
+            
 
         }
+        //Problem 2
+        // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
+        // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+        // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
+        // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
-       // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
-       // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
-       // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
-       // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
-
+        //Problem 4
         //verticalHistogram(bmiVals);
-        smokerHistogram(smokerVals);
+
+        //Problem 6
+        ////smokerHistogram(smokerVals);
+        
+        //Problem 8
+        // boolean result = averageCharge(ageVals, chargesVals);
+        // if(result){
+        //     System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
+        // }
+        // else{
+        //     System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        // }
+
+        // //Problem 10
+        // boolean result2 = chargePerChild(childrenVals,chargesVals);
+        // if(result2){
+        //     System.out.println("Having more children results in a lower charge per child.");
+        // }
+        // else{
+        //     System.out.println("It is not true that having more children results in a lower charge per child.");
+        // }
+
+        ArrayList<String> BMIaverages = averageBMI(regionVals, bmiVals);
+        System.out.println("\nThe south averages a higher BMI than the North at these ranges: \n" + BMIaverages);
 
     }
 
@@ -271,6 +302,118 @@ public class evenProblems {
         }
         System.out.println();
 
+
+    }
+    //Problem 8
+    public static boolean averageCharge(ArrayList<Integer> gold, ArrayList<Double> violet){
+        double oldAverage = 0.0;
+        double youngAverage = 0.0;
+        int oldCount = 0;
+        int youngCount = 0;
+        HashMap<Integer, Double> ageToCharges = new HashMap<>();
+
+        for(int x = 0; x < gold.size(); x++){
+            int age = gold.get(x);
+            if(ageToCharges.get(age) == null){
+                ageToCharges.put(age, violet.get(x));
+            }
+            ageToCharges.put(gold.get(x),ageToCharges.get(age) + violet.get(x));
+        }
+        
+        for(int key : ageToCharges.keySet()){
+            if(key >= 50){
+                oldAverage += ageToCharges.get(key);
+                oldCount++;
+            } else if(key <= 20){
+                youngAverage += ageToCharges.get(key);
+                youngCount++;
+            }
+        }
+
+        oldAverage /= oldCount;
+        youngAverage /= youngCount;
+
+        if(oldAverage >= youngAverage * 2){
+            return true;
+        }else
+            return false;
+    }
+
+
+    //Problem 10
+    public static boolean chargePerChild(ArrayList<Integer> cyan, ArrayList<Double> black){
+
+        HashMap<Integer, ArrayList<Double>> childToCharge = new HashMap<>();
+        ArrayList<Double> finalAvg = new ArrayList<>();
+
+        for(int x = 0; x < cyan.size(); x++){
+            int val = cyan.get(x);
+            if(childToCharge.get(val) == null)
+            {
+                childToCharge.put(val, new ArrayList<Double>());
+            }
+            childToCharge.get(val).add(black.get(x));
+        }
+        for(Entry<Integer, ArrayList<Double>> ee : childToCharge.entrySet()){
+            int key = ee.getKey();
+            ArrayList<Double> values = ee.getValue();
+
+            double total = 0;
+            for(double v : values){
+                total += v;
+            }
+            double average = total/values.size();
+            System.out.println(key + ": " + average);
+            finalAvg.add(average);
+
+        }
+        double lowest = finalAvg.get(0);
+        for(int c = 0; c < finalAvg.size(); c++){
+            if(lowest <= finalAvg.get(c)){
+                return false;
+            }
+        }
+        return true; // Assume null hypothesis is true
+    }
+
+    public static ArrayList<String> averageBMI(ArrayList<String> regions, ArrayList<Double> bmiList){
+        Map<String, ArrayList<String>> bmiToRegions = new HashMap<>();
+        int southCount = 0;
+        int northCount = 0;
+
+        for(int x = 0; x < bmiList.size(); x++){
+            int lower = (int)(bmiList.get(x)/ 10) * 10;
+            int upper = lower + 9;
+            String range = lower + "-" + upper;
+
+            if(bmiToRegions.get(range) == null){
+                bmiToRegions.put(range, new ArrayList<>());
+            }
+
+            bmiToRegions.get(range).add(regions.get(x));
+        }
+
+        ArrayList<String> resultarr = new ArrayList<>();
+        for(Entry<String, ArrayList<String>> ee : bmiToRegions.entrySet()){
+            String key = ee.getKey();
+            ArrayList<String> value = ee.getValue();
+
+            for(String v : value){
+                if(v.contains("south")){
+                    southCount++;
+                }else{
+                    northCount++;
+                }
+            }
+            if(southCount > northCount){
+                String result = key + "= [South Count: " + southCount + " North Count: " + northCount + "]";
+                resultarr.add(result);
+            }
+            southCount = 0;
+            northCount = 0;
+        }
+
+        return resultarr;
 
     }
 
