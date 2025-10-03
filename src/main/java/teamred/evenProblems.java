@@ -52,6 +52,8 @@ public class evenProblems {
 
         //verticalHistogram(bmiVals);
         //smokerHistogram(smokerVals);
+
+        
         boolean raspberry = differenceBetweenRegionCharges(smokerVals,regionVals,chargesVals);
         if(raspberry){
             System.out.println("It is true that smokers in the south are charged 25% more than other regions.");
