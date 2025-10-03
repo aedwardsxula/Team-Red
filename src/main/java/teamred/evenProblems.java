@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 
 
 public class evenProblems {
@@ -48,7 +51,7 @@ public class evenProblems {
         //verticalHistogram(bmiVals);
 
         //Problem 6
-        //smokerHistogram(smokerVals);
+        ////smokerHistogram(smokerVals);
         
         //Problem 8
         boolean result = averageCharge(ageVals, chargesVals);
@@ -57,6 +60,15 @@ public class evenProblems {
         }
         else{
             System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        }
+
+        //Problem 10
+        boolean result2 = chargePerChild(childrenVals,chargesVals);
+        if(result2){
+            System.out.println("Having more children results in a lower charge per child.");
+        }
+        else{
+            System.out.println("It is not true that having more children results in a lower charge per child.");
         }
 
     }
@@ -321,6 +333,42 @@ public class evenProblems {
             return false;
     }
 
+
+    //Problem 10
+    public static boolean chargePerChild(ArrayList<Integer> cyan, ArrayList<Double> black){
+
+        HashMap<Integer, ArrayList<Double>> childToCharge = new HashMap<>();
+        ArrayList<Double> finalAvg = new ArrayList<>();
+
+        for(int x = 0; x < cyan.size(); x++){
+            int val = cyan.get(x);
+            if(childToCharge.get(val) == null)
+            {
+                childToCharge.put(val, new ArrayList<Double>());
+            }
+            childToCharge.get(val).add(black.get(x));
+        }
+        for(Entry<Integer, ArrayList<Double>> ee : childToCharge.entrySet()){
+            int key = ee.getKey();
+            ArrayList<Double> values = ee.getValue();
+
+            double total = 0;
+            for(double v : values){
+                total += v;
+            }
+            double average = total/values.size();
+            System.out.println(key + ": " + average);
+            finalAvg.add(average);
+
+        }
+        double lowest = finalAvg.get(0);
+        for(int c = 0; c < finalAvg.size(); c++){
+            if(lowest <= finalAvg.get(c)){
+                return false;
+            }
+        }
+        return true; // Assume null hypothesis is true
+    }
 
     
 }
