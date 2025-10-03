@@ -71,7 +71,12 @@ public class evenProblems {
         //     System.out.println("It is not true that having more children results in a lower charge per child.");
         // }
         ArrayList<String> resarr = smokersAndNonSmokers(ageVals, smokerVals);
-        System.out.println(resarr);
+        if(resarr.size() == 0){
+            System.out.println("\nYoung people do not average more smokers than old people at any age range.");
+        }else{
+            System.out.println("\nYoung smoke more than old people on average at these ranges: \n" + resarr);
+        }
+        
 
     }
 
@@ -400,8 +405,10 @@ public class evenProblems {
                     ncount++;
                 }
             }
-            String result = key + ": [smoker=" + ycount + "] [non-smoker=" + ncount + "]";
-            resultList.add(result);
+            if(ycount > ncount){
+                String result = key + ": [smoker=" + ycount + "] [non-smoker=" + ncount + "]";
+                resultList.add(result);
+            }
             ycount = 0;
             ncount = 0;
 
