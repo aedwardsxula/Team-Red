@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 public class evenProblems {
 
     public static void main(String[] args){
-        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red-2/data/insurance.csv";
+        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red/data/insurance.csv";
         String line = "";
         ArrayList<String> data = new ArrayList<>();
         ArrayList<Integer> ageVals = new ArrayList<>();
@@ -22,6 +22,7 @@ public class evenProblems {
         ArrayList<Integer> childrenVals = new ArrayList<>();
         ArrayList<Double> chargesVals = new ArrayList<>();
         ArrayList<String> smokerVals = new ArrayList<>();
+        ArrayList<String> regionVals = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvPath))){
             line = reader.readLine(); // Skip header line
@@ -37,8 +38,10 @@ public class evenProblems {
             ageVals.add(Integer.parseInt(values[0]));
             bmiVals.add(Double.parseDouble(values[2]));
             childrenVals.add(Integer.parseInt(values[3]));
-            chargesVals.add(Double.parseDouble(values[6]));
             smokerVals.add(values[4]);
+            regionVals.add(values[5]);
+            chargesVals.add(Double.parseDouble(values[6]));
+            
 
         }
         //Problem 2
@@ -54,22 +57,25 @@ public class evenProblems {
         ////smokerHistogram(smokerVals);
         
         //Problem 8
-        boolean result = averageCharge(ageVals, chargesVals);
-        if(result){
-            System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
-        }
-        else{
-            System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
-        }
+        // boolean result = averageCharge(ageVals, chargesVals);
+        // if(result){
+        //     System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
+        // }
+        // else{
+        //     System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        // }
 
-        //Problem 10
-        boolean result2 = chargePerChild(childrenVals,chargesVals);
-        if(result2){
-            System.out.println("Having more children results in a lower charge per child.");
-        }
-        else{
-            System.out.println("It is not true that having more children results in a lower charge per child.");
-        }
+        // //Problem 10
+        // boolean result2 = chargePerChild(childrenVals,chargesVals);
+        // if(result2){
+        //     System.out.println("Having more children results in a lower charge per child.");
+        // }
+        // else{
+        //     System.out.println("It is not true that having more children results in a lower charge per child.");
+        // }
+
+        ArrayList<String> BMIaverages = averageBMI(regionVals, bmiVals);
+        System.out.println("\nThe south averages a higher BMI than the North at these ranges: \n" + BMIaverages);
 
     }
 
@@ -368,6 +374,47 @@ public class evenProblems {
             }
         }
         return true; // Assume null hypothesis is true
+    }
+
+    public static ArrayList<String> averageBMI(ArrayList<String> regions, ArrayList<Double> bmiList){
+        Map<String, ArrayList<String>> bmiToRegions = new HashMap<>();
+        int southCount = 0;
+        int northCount = 0;
+
+        for(int x = 0; x < bmiList.size(); x++){
+            int lower = (int)(bmiList.get(x)/ 10) * 10;
+            int upper = lower + 9;
+            String range = lower + "-" + upper;
+
+            if(bmiToRegions.get(range) == null){
+                bmiToRegions.put(range, new ArrayList<>());
+            }
+
+            bmiToRegions.get(range).add(regions.get(x));
+        }
+
+        ArrayList<String> resultarr = new ArrayList<>();
+        for(Entry<String, ArrayList<String>> ee : bmiToRegions.entrySet()){
+            String key = ee.getKey();
+            ArrayList<String> value = ee.getValue();
+
+            for(String v : value){
+                if(v.contains("south")){
+                    southCount++;
+                }else{
+                    northCount++;
+                }
+            }
+            if(southCount > northCount){
+                String result = key + "= [South Count: " + southCount + " North Count: " + northCount + "]";
+                resultarr.add(result);
+            }
+            southCount = 0;
+            northCount = 0;
+        }
+
+        return resultarr;
+
     }
 
     
