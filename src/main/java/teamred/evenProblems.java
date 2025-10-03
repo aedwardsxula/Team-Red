@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 
 
 public class evenProblems {
@@ -37,14 +41,42 @@ public class evenProblems {
             smokerVals.add(values[4]);
 
         }
+        //Problem 2
+        // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
+        // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
+        // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
+        // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
 
-       // System.out.println("Age values: " + calculateValsFromIntegers(ageVals));
-       // System.out.println("Children values: " + calculateValsFromIntegers(childrenVals));
-       // System.out.println("BMI values: " + calculateValsFromDoubles(bmiVals));
-       // System.out.println("Charges values: " + calculateValsFromDoubles(chargesVals));
-
+        //Problem 4
         //verticalHistogram(bmiVals);
-        smokerHistogram(smokerVals);
+
+        //Problem 6
+        ////smokerHistogram(smokerVals);
+        
+        //Problem 8
+        // boolean result = averageCharge(ageVals, chargesVals);
+        // if(result){
+        //     System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
+        // }
+        // else{
+        //     System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        // }
+
+        //Problem 10
+        // boolean result2 = chargePerChild(childrenVals,chargesVals);
+        // if(result2){
+        //     System.out.println("Having more children results in a lower charge per child.");
+        // }
+        // else{
+        //     System.out.println("It is not true that having more children results in a lower charge per child.");
+        // }
+        ArrayList<String> resarr = smokersAndNonSmokers(ageVals, smokerVals);
+        if(resarr.size() == 0){
+            System.out.println("\nYoung people do not average more smokers than old people at any age range.");
+        }else{
+            System.out.println("\nYoung smoke more than old people on average at these ranges: \n" + resarr);
+        }
+        
 
     }
 
@@ -273,7 +305,115 @@ public class evenProblems {
 
 
     }
+    //Problem 8
+    public static boolean averageCharge(ArrayList<Integer> gold, ArrayList<Double> violet){
+        double oldAverage = 0.0;
+        double youngAverage = 0.0;
+        int oldCount = 0;
+        int youngCount = 0;
+        HashMap<Integer, Double> ageToCharges = new HashMap<>();
+
+        for(int x = 0; x < gold.size(); x++){
+            int age = gold.get(x);
+            if(ageToCharges.get(age) == null){
+                ageToCharges.put(age, violet.get(x));
+            }
+            ageToCharges.put(gold.get(x),ageToCharges.get(age) + violet.get(x));
+        }
+        
+        for(int key : ageToCharges.keySet()){
+            if(key >= 50){
+                oldAverage += ageToCharges.get(key);
+                oldCount++;
+            } else if(key <= 20){
+                youngAverage += ageToCharges.get(key);
+                youngCount++;
+            }
+        }
+
+        oldAverage /= oldCount;
+        youngAverage /= youngCount;
+
+        if(oldAverage >= youngAverage * 2){
+            return true;
+        }else
+            return false;
+    }
+
+
+    //Problem 10
+    public static boolean chargePerChild(ArrayList<Integer> cyan, ArrayList<Double> black){
+
+        HashMap<Integer, ArrayList<Double>> childToCharge = new HashMap<>();
+        ArrayList<Double> finalAvg = new ArrayList<>();
+
+        for(int x = 0; x < cyan.size(); x++){
+            int val = cyan.get(x);
+            if(childToCharge.get(val) == null)
+            {
+                childToCharge.put(val, new ArrayList<Double>());
+            }
+            childToCharge.get(val).add(black.get(x));
+        }
+        for(Entry<Integer, ArrayList<Double>> ee : childToCharge.entrySet()){
+            int key = ee.getKey();
+            ArrayList<Double> values = ee.getValue();
+
+            double total = 0;
+            for(double v : values){
+                total += v;
+            }
+            double average = total/values.size();
+            System.out.println(key + ": " + average);
+            finalAvg.add(average);
+
+        }
+        double lowest = finalAvg.get(0);
+        for(int c = 0; c < finalAvg.size(); c++){
+            if(lowest <= finalAvg.get(c)){
+                return false;
+            }
+        }
+        return true; // Assume null hypothesis is true
+    }
 
     
+    //Problem 16
+    public static ArrayList<String> smokersAndNonSmokers(ArrayList<Integer>ages, ArrayList<String> smokers){
+        Map<String, ArrayList<String>> sMap = new HashMap<>();
+        int ycount = 0;
+        int ncount = 0;
+
+        for(int x = 0; x < ages.size(); x++){
+            int lower = (ages.get(x)/10) * 10;
+            int upper = lower + 9;
+            String range = lower + "-" + upper;
+            if(sMap.get(range) == null){
+                sMap.put(range, new ArrayList<>());
+            }
+            sMap.get(range).add(smokers.get(x));
+        }
+        ArrayList<String> resultList = new ArrayList<>();
+        for(Entry<String, ArrayList<String>> ee : sMap.entrySet()){
+            String key = ee.getKey();
+            ArrayList<String> values = ee.getValue();
+
+            for(String v : values){
+                if(v.equalsIgnoreCase("yes")){
+                    ycount++;
+                }else{
+                    ncount++;
+                }
+            }
+            if(ycount > ncount){
+                String result = key + ": [smoker=" + ycount + "] [non-smoker=" + ncount + "]";
+                resultList.add(result);
+            }
+            ycount = 0;
+            ncount = 0;
+
+        }
+        return resultList;
+    }
 }
 
