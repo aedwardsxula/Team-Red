@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 public class evenProblems {
 
     public static void main(String[] args){
-        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red-2/data/insurance.csv";
+        String csvPath = "/Users/austin/Documents/CPSC_2735/assignment05/Team-Red/data/insurance.csv";
         String line = "";
         ArrayList<String> data = new ArrayList<>();
         ArrayList<Integer> ageVals = new ArrayList<>();
@@ -54,22 +54,26 @@ public class evenProblems {
         ////smokerHistogram(smokerVals);
         
         //Problem 8
-        boolean result = averageCharge(ageVals, chargesVals);
-        if(result){
-            System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
-        }
-        else{
-            System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
-        }
+        // boolean result = averageCharge(ageVals, chargesVals);
+        // if(result){
+        //     System.out.println("It is true that the average charge for people over 50 is at least double that of people under 20.");
+        // }
+        // else{
+        //     System.out.println("It is false that the average charge for people over 50 is at least double that of people under 20.");
+        // }
 
         //Problem 10
-        boolean result2 = chargePerChild(childrenVals,chargesVals);
-        if(result2){
-            System.out.println("Having more children results in a lower charge per child.");
-        }
-        else{
-            System.out.println("It is not true that having more children results in a lower charge per child.");
-        }
+        // boolean result2 = chargePerChild(childrenVals,chargesVals);
+        // if(result2){
+        //     System.out.println("Having more children results in a lower charge per child.");
+        // }
+        // else{
+        //     System.out.println("It is not true that having more children results in a lower charge per child.");
+        // }
+
+        //Problem 14
+        Map<String, Integer> ageDistribution = smokerAgeDistribution(ageVals,smokerVals);
+        System.out.println(ageDistribution);
 
     }
 
@@ -370,6 +374,24 @@ public class evenProblems {
         return true; // Assume null hypothesis is true
     }
 
-    
+  
+    //Problem 14
+    public static Map<String,Integer> smokerAgeDistribution(ArrayList<Integer> ages, ArrayList<String> smokers){
+        Map<String, Integer> sMap = new HashMap<>();
+
+        for(int x = 0; x < smokers.size(); x++){
+            if(smokers.get(x).equalsIgnoreCase("Yes")){
+                int lower = (ages.get(x)/10) * 10; // Java throws away the remainder ex.) 45 --> 40
+                int upper = lower + 9;
+                String range = lower + "-" + upper;
+
+                if(sMap.get(range) == null){
+                    sMap.put(range, 1);
+                }
+                sMap.put(range,sMap.get(range) + 1);
+            }
+        }
+        return sMap;
+    }
 }
 
